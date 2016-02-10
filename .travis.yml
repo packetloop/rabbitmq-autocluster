@@ -28,4 +28,4 @@ deploy:
   file: "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez"
   on:
     tags: true
-    repo: aweber/rabbitmq-autocluster
+    repo: alexeyraga/rabbitmq-autocluster
