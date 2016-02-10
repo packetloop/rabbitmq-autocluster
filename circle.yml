@@ -15,5 +15,5 @@ dependencies:
 
   override:
     - sh cci-umbrella-setup.sh
-    - sh cci-install-consul.sh
+    # - sh cci-install-consul.sh
     - cd $BUILD_DIR/autocluster && make test
