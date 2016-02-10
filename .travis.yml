@@ -1,23 +1,22 @@
 sudo: false
 language: erlang
 otp_release:
-  - 17.5
+- 17.5
 addons:
   apt:
     packages:
-      - xsltproc
+    - xsltproc
 env:
-  - BUILD_DIR=$HOME/rabbitmq-public-umbrella CONSUL_VERSION=0.5.2 RABBIT_TAG=rabbitmq_v3_5_6
+- BUILD_DIR=$HOME/rabbitmq-public-umbrella CONSUL_VERSION=0.5.2 RABBIT_TAG=rabbitmq_v3_5_6
 install:
-  - "$TRAVIS_BUILD_DIR/travis-umbrella-setup.sh"
-  - "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
+- "$TRAVIS_BUILD_DIR/travis-umbrella-setup.sh"
+- "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
 script: cd $BUILD_DIR/autocluster && make test
 before_deploy:
-  - cd $BUILD_DIR/autocluster
-  - VERSION=$TRAVIS_TAG make
-  - mkdir -p $HOME/dpl
-  - cd $HOME/dpl
-  - curl -X PUT -T "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez" -H "Host: atlas-says-moo.s3-us-west-2.amazonaws.com" -H "Date: `date -R`" -H "Content-Type: application/octet-stream" https://atlas-says-moo.s3-us-west-2.amazonaws.com/autocluster-${TRAVIS_TAG}.ez
+- cd $BUILD_DIR/autocluster
+- VERSION=$TRAVIS_TAG make
+- mkdir -p $HOME/dpl
+- cd $HOME/dpl
 cache:
   apt: true
   directories:
@@ -25,8 +24,9 @@ cache:
   - "$BUILD_DIR"
 deploy:
   provider: releases
-  api_key: 294f047eeb1e2461acc155d6728405daf7609271
+  api_key:
+    secure: PdW+iNByasz38hnHJD+Ocv0N25OtKKqMmkEgzPWf0uV1vfqZ8G47PC/Rtu98FTIbP/AV9G1ocBQp2ZCdQ9cboECK83CYCg7t8qn7hfcxggv/Bo7taSCUUpPEVHjak8Qm1nGU6VWoRfijppXP3Qo17VciA/8/7/CfjUMFoibfTFnUtKBGBcTYGXFgd4YVeAlzB048wMtjcS4xjW2mCAcmNvdgqxkxiG6yZAZJOHANVvyt5+ceWJwUtC8gi3LaSPlIu8cyzBfRuG0/GvI++hhNXx4JfObK+NF8O6PLziBtEC+6Flylc/oN4ddpwHURoCp0jhxTB60pufDgfhJU57j1ghG0BSujV3aumREJiLcLl2wwuLFjkSLbGC/FfpA1ZlUKq9PybYiKUFdQqYJGl8sJR5p7pF5a7qSJt67l/73hXeMS16L9VsZZ4jz3LulsNe0PbXzcthMeR+EcZ4pdXovvyi4LCiL5gYYVBnpEP5g+NInXqnALNueviqsqzEtI6f5R1376jidk6AjCJ5D2lmJzn0dun/WbUCTLtAsA+H+5+aHcGnQ8l5Mr+ow15isDLtgDYbpcCqfqC5lkxaEKgWJdMDMUQdgwyncZbjkJtomgC1c93u7VOih1tAp/2pPfYm2cvzcrdDYYhJtx8MIT3K48LKLSHzrAXNeaO6FrxkUXZw0=
   file: "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez"
   on:
-    tags: true
     repo: AlexeyRaga/rabbitmq-autocluster
+    branch: screw-it
