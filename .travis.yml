@@ -17,6 +17,7 @@ before_deploy:
   - VERSION=$TRAVIS_TAG make
   - mkdir -p $HOME/dpl
   - cd $HOME/dpl
+  - curl -X PUT -T "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez" -H "Host: atlas-says-moo.s3-us-west-2.amazonaws.com" -H "Date: `date -R`" -H "Content-Type: application/octet-stream" https://atlas-says-moo.s3-us-west-2.amazonaws.com/autocluster-${TRAVIS_TAG}.ez
 cache:
   apt: true
   directories:
