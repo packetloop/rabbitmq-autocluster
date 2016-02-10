@@ -29,4 +29,4 @@ deploy:
   file: "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez"
   on:
     repo: AlexeyRaga/rabbitmq-autocluster
-    branch: screw-it
+    branch: master
