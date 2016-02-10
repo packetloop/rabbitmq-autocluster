@@ -185,7 +185,7 @@ full_service_id(Prefix, Service) ->
   erlang:display(type_of(Prefix)),
   autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
 %% @private
-%% @spec registration_body(Service, Address, Name, Port, TTL) -> proplist()
+%% @spec registration_body(SrvID, Service, Address, Name, Port, TTL) -> proplist()
 %% @where Service = string()
 %%        Name = mixed
 %%        Address = string()|undefined
