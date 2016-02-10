@@ -178,7 +178,7 @@ full_service_id("undefined", Service) ->
   autocluster_util:as_atom(Service);
 
 full_service_id(Prefix, Service) ->
-  autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
+  autocluster_util:as_atom(lists:concat([Prefix, Service])).
 %% @private
 %% @spec registration_body(Service, Address, Name, Port, TTL) -> proplist()
 %% @where Service = string()
@@ -189,35 +189,35 @@ full_service_id(Prefix, Service) ->
 %% @doc Return a property list with the payload data structure for registration
 %% @end
 %%
-registration_body(ID, Service, "undefined", "undefined", undefined, _) ->
-  [{"ID", ID}, {"Name", Service}];
+registration_body(SrvID, Service, "undefined", "undefined", undefined, _) ->
+  [{"ID", SrvID}, {"Name", Service}];
 
-registration_body(ID, Service, Name, "undefined", undefined, _) ->
-  [{"ID", ID}, {"Name", Service},
+registration_body(SrvID, Service, Name, "undefined", undefined, _) ->
+  [{"ID", SrvID}, {"Name", Service},
    {"Tags", [autocluster_util:as_atom(Name)]}];
 
-registration_body(ID, Service, "undefined", "undefined", Port, TTL) ->
-  [{"ID", ID}, {"Name", Service}, {"Port", Port},
+registration_body(SrvID, Service, "undefined", "undefined", Port, TTL) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Port", Port},
    {"Check", [{"Notes", ?CONSUL_CHECK_NOTES}, {"TTL", ttl(TTL)}]}];
 
-registration_body(ID, Service, Name, "undefined", Port, TTL) ->
-  [{"ID", ID}, {"Name", Service}, {"Port", Port},
+registration_body(SrvID, Service, Name, "undefined", Port, TTL) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Port", Port},
    {"Tags", [autocluster_util:as_atom(Name)]},
    {"Check", [{"Notes", ?CONSUL_CHECK_NOTES}, {"TTL", ttl(TTL)}]}];
 
-registration_body(ID, Service, "undefined", Address, undefined, _) ->
-  [{"ID", ID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}];
+registration_body(SrvID, Service, "undefined", Address, undefined, _) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}];
 
-registration_body(ID, Service, Name, Address, undefined, _) ->
-  [{"ID", ID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)},
+registration_body(SrvID, Service, Name, Address, undefined, _) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)},
    {"Tags", [autocluster_util:as_atom(Name)]}];
 
-registration_body(ID, Service, Name, Address, Port, _) ->
-  [{"ID", ID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
+registration_body(SrvID, Service, Name, Address, Port, _) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
    {"Tags", [autocluster_util:as_atom(Name)]}];
 
-registration_body(ID, Service, Name, Address, Port, TTL) ->
-  [{"ID", ID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
+registration_body(SrvID, Service, Name, Address, Port, TTL) ->
+  [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
    {"Tags", [autocluster_util:as_atom(Name)]},
    {"Check", [{"Notes", ?CONSUL_CHECK_NOTES}, {"TTL", ttl(TTL)}]}].
 
