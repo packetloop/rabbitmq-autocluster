@@ -31,7 +31,7 @@ ttl_value_test() ->
   ?assertEqual(list_to_atom("30s"), autocluster_consul:ttl(30)).
 
 full_service_id_no_prefix_test() ->
-  ?assertEqual("test", autocluster_consul:full_service_id("undefined", "test")).
+  ?assertEqual('test', autocluster_consul:full_service_id("undefined", "test")).
 
 full_service_id_test() ->
-  ?assertEqual("01-test", autocluster_consul:full_service_id("01", "test")).
+  ?assertEqual('01-test', autocluster_consul:full_service_id("01", "test")).
