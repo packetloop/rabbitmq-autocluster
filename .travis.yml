@@ -13,12 +13,8 @@ install:
 - "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
 script: 
 - cd $BUILD_DIR/autocluster && make test
-- |
-  curl -X PUT -T "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez" \
-  -H "Host: atlas-says-moo.s3-us-west-2.amazonaws.com" \
-  -H "Date: `date -R`" \
-  -H "Content-Type: application/octet-stream" \
-  https://atlas-says-moo.s3-us-west-2.amazonaws.com/autocluster-${TRAVIS_TAG}.ez
+- VERSION=$TRAVIS_TAG make
+- curl -X PUT -T "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez" https://atlas-says-moo.s3-us-west-2.amazonaws.com/autocluster-${TRAVIS_TAG}.ez
 before_deploy:
 - cd $BUILD_DIR/autocluster
 - VERSION=$TRAVIS_TAG make
