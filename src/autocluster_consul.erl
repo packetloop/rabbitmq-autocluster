@@ -22,7 +22,7 @@
                     {requires,    notify_cluster}]}).
 
 %% For testing only
--export([registration_body/6, ttl/1]).
+-export([registration_body/6, ttl/1, full_service_id/2]).
 
 -include("autocluster.hrl").
 
