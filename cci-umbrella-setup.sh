@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 CCI_DIR=${PWD}
 BUILD_DIR=${BUILD_DIR:-${HOME}/rabbitmq-public-umbrella}
 RABBIT_TAG=${RABBIT_TAG:-rabbitmq_v3_5_6}
