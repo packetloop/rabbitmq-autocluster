@@ -161,8 +161,8 @@ registration_body() ->
                                                  autocluster_config:get(consul_service_address),
                                                  autocluster_config:get(consul_service_port),
                                                  autocluster_config:get(consul_service_ttl)},
-  FullId = full_service_id(Prefix, Service),
-  Payload = registration_body(FullId, list_to_atom(Service), Name, Address, Port, TTL),
+  SrvID = full_service_id(Prefix, Service),
+  Payload = registration_body(SrvID, list_to_atom(Service), Name, Address, Port, TTL),
   case rabbit_misc:json_encode(Payload) of
     {ok, Body} ->
       lists:flatten(Body);
@@ -177,8 +177,11 @@ registration_body() ->
 full_service_id("undefined", Service) ->
   autocluster_util:as_atom(Service);
 
+full_service_id(undefined, Service) ->
+  autocluster_util:as_atom(Service);
+
 full_service_id(Prefix, Service) ->
-  autocluster_util:as_atom(lists:concat([Prefix, Service])).
+  autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
 %% @private
 %% @spec registration_body(Service, Address, Name, Port, TTL) -> proplist()
 %% @where Service = string()
