@@ -9,6 +9,7 @@ addons:
 env:
 - BUILD_DIR=$HOME/rabbitmq-public-umbrella CONSUL_VERSION=0.5.2 RABBIT_TAG=rabbitmq_v3_5_6
 install:
+- erl --version -eval 'erlang:display(erlang:system_info(otp_release)), halt().'  -noshell
 - "$TRAVIS_BUILD_DIR/travis-umbrella-setup.sh"
 - "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
 script: 
