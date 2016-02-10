@@ -42,8 +42,8 @@ ensure_clustered(DiscoveryNodes) ->
   Nodes = rabbit_mnesia:cluster_nodes(all),
   case length(Nodes) of
     1 ->
-      autocluster_log:debug("Node is only node in the cluster"),
       DNodes = sets:to_list(Discovery),
+      autocluster_log:debug("Node is only node in the cluster: ~p", [DNodes]),
       case DNodes of
         [] ->
           autocluster_log:info("Node appears to be the first in the cluster"),
@@ -76,12 +76,16 @@ ensure_registered() ->
 %% @end
 %%
 ensure_registered(consul) ->
+  autocluster_log:debug("ensure_registered(consul)"),
   ensure_registered(consul, autocluster_consul);
 ensure_registered(dns) ->
+  autocluster_log:debug("ensure_registered(dns)"),
   ensure_registered(dns, autocluster_dns);
 ensure_registered(etcd) ->
+  autocluster_log:debug("ensure_registered(etcd)"),
   ensure_registered(etcd, autocluster_etcd);
 ensure_registered(Backend) ->
+  autocluster_log:debug("ensure_registered(~p)", [Backend]),
   autocluster_log:error("Unsupported backend: ~s", [Backend]),
   error.
 
@@ -96,6 +100,7 @@ ensure_registered(Backend) ->
 ensure_registered(Name, Module) ->
   case Module:nodelist() of
     {ok, Nodes} ->
+      autocluster_log:info("Got nodelist: ~p", [Nodes]),
       case lists:member(node(), Nodes) of
         true  -> {ok, Nodes};
         false ->

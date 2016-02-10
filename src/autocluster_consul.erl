@@ -62,7 +62,9 @@ nodelist() ->
                              autocluster_config:get(consul_port),
                              [v1, health, service, autocluster_config:get(consul_service)],
                              Args) of
-    {ok, Nodes} -> {ok, extract_nodes(Nodes)};
+    {ok, Nodes} ->
+      autocluster_log:info("autocluster_httpc:get got ~p", [Nodes]),
+      {ok, extract_nodes(Nodes)};
     Error       -> Error
   end.
 
@@ -177,13 +179,15 @@ registration_body() ->
 full_service_id("undefined", Service) ->
   autocluster_util:as_atom(Service);
 
-full_service_id(undefined, Service) ->
-  autocluster_util:as_atom(Service);
+% full_service_id(undefined, Service) ->
+%   erlang:display("undefined atom"),
+%   autocluster_util:as_atom(Service);
 
 full_service_id(Prefix, Service) ->
+  erlang:display(type_of(Prefix)),
   autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
 %% @private
-%% @spec registration_body(Service, Address, Name, Port, TTL) -> proplist()
+%% @spec registration_body(SrvID, Service, Address, Name, Port, TTL) -> proplist()
 %% @where Service = string()
 %%        Name = mixed
 %%        Address = string()|undefined

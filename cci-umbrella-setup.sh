@@ -5,6 +5,7 @@ RABBIT_TAG=${RABBIT_TAG:-rabbitmq_v3_5_6}
 echo "Build dir: ${BUILD_DIR}"
 git clone -b ${RABBIT_TAG} https://github.com/rabbitmq/rabbitmq-public-umbrella.git ${BUILD_DIR}
 make ${BUILD_DIR}/co
+cd ${BUILD_DIR}
 make BRANCH=${RABBIT_TAG} up_c
 if [ -d ${BUILD_DIR}/autocluster ]; then
     rm -rf ${BUILD_DIR}/autocluster
