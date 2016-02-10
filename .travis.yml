@@ -1,22 +1,22 @@
 sudo: false
 language: erlang
 otp_release:
-  - 17.5
+- 17.5
 addons:
   apt:
     packages:
-      - xsltproc
+    - xsltproc
 env:
-  - BUILD_DIR=$HOME/rabbitmq-public-umbrella CONSUL_VERSION=0.5.2 RABBIT_TAG=rabbitmq_v3_5_6
+- BUILD_DIR=$HOME/rabbitmq-public-umbrella CONSUL_VERSION=0.5.2 RABBIT_TAG=rabbitmq_v3_5_6
 install:
-  - "$TRAVIS_BUILD_DIR/travis-umbrella-setup.sh"
-  - "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
+- "$TRAVIS_BUILD_DIR/travis-umbrella-setup.sh"
+- "$TRAVIS_BUILD_DIR/travis-install-consul.sh"
 script: cd $BUILD_DIR/autocluster && make test
 before_deploy:
-  - cd $BUILD_DIR/autocluster
-  - VERSION=$TRAVIS_TAG make
-  - mkdir -p $HOME/dpl
-  - cd $HOME/dpl
+- cd $BUILD_DIR/autocluster
+- VERSION=$TRAVIS_TAG make
+- mkdir -p $HOME/dpl
+- cd $HOME/dpl
 cache:
   apt: true
   directories:
@@ -25,8 +25,8 @@ cache:
 deploy:
   provider: releases
   api_key:
-    secure: ktklMK+XMOteFt+m9NHhVqKkA1Wo8f9L/cJphUmBMgb3TS+4+vAU50yY8omIyprS8poc3mBWxjYD9p9xdeDnXY2tiFrLDKCWU/jbH3awD0uL6W0Di8BYAVOGhr2Jjjp6gi/B67wHtCtzEoSSNNfMMZ+RWf4GZjJ96NXOLhPRx4k=
+    secure: PdW+iNByasz38hnHJD+Ocv0N25OtKKqMmkEgzPWf0uV1vfqZ8G47PC/Rtu98FTIbP/AV9G1ocBQp2ZCdQ9cboECK83CYCg7t8qn7hfcxggv/Bo7taSCUUpPEVHjak8Qm1nGU6VWoRfijppXP3Qo17VciA/8/7/CfjUMFoibfTFnUtKBGBcTYGXFgd4YVeAlzB048wMtjcS4xjW2mCAcmNvdgqxkxiG6yZAZJOHANVvyt5+ceWJwUtC8gi3LaSPlIu8cyzBfRuG0/GvI++hhNXx4JfObK+NF8O6PLziBtEC+6Flylc/oN4ddpwHURoCp0jhxTB60pufDgfhJU57j1ghG0BSujV3aumREJiLcLl2wwuLFjkSLbGC/FfpA1ZlUKq9PybYiKUFdQqYJGl8sJR5p7pF5a7qSJt67l/73hXeMS16L9VsZZ4jz3LulsNe0PbXzcthMeR+EcZ4pdXovvyi4LCiL5gYYVBnpEP5g+NInXqnALNueviqsqzEtI6f5R1376jidk6AjCJ5D2lmJzn0dun/WbUCTLtAsA+H+5+aHcGnQ8l5Mr+ow15isDLtgDYbpcCqfqC5lkxaEKgWJdMDMUQdgwyncZbjkJtomgC1c93u7VOih1tAp/2pPfYm2cvzcrdDYYhJtx8MIT3K48LKLSHzrAXNeaO6FrxkUXZw0=
   file: "$BUILD_DIR/autocluster/dist/autocluster-${TRAVIS_TAG}.ez"
   on:
-    tags: true
-    repo: aweber/rabbitmq-autocluster
+    repo: AlexeyRaga/rabbitmq-autocluster
+    branch: master
