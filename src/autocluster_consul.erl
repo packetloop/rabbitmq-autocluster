@@ -161,7 +161,7 @@ registration_body() ->
                                                  autocluster_config:get(consul_service_address),
                                                  autocluster_config:get(consul_service_port),
                                                  autocluster_config:get(consul_service_ttl)},
-  FullId = full_service_id(Prefix, Service)
+  FullId = full_service_id(Prefix, Service),
   Payload = registration_body(list_to_atom(FullId), list_to_atom(Service), Name, Address, Port, TTL),
   case rabbit_misc:json_encode(Payload) of
     {ok, Body} ->
