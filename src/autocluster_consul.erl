@@ -62,7 +62,9 @@ nodelist() ->
                              autocluster_config:get(consul_port),
                              [v1, health, service, autocluster_config:get(consul_service)],
                              Args) of
-    {ok, Nodes} -> {ok, extract_nodes(Nodes)};
+    {ok, Nodes} ->
+      autocluster_log:info("autocluster_httpc:get got ~p", [Nodes]),
+      {ok, extract_nodes(Nodes)};
     Error       -> Error
   end.
 
