@@ -25,7 +25,7 @@ test:
     - true
 deployment:
   development:
-    branch: fix-service-id
+    branch: [fix-service-id]
     commands:
     — go get github.com/mitchellh/gox
     — go get github.com/tcnksm/ghr
