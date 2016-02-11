@@ -20,10 +20,13 @@ dependencies:
     - sh cci-umbrella-setup.sh
     # - sh cci-install-consul.sh
     - cd $BUILD_DIR/autocluster && make test
-# deployment:
-#   release:
-#   branch: master
-#   commands:
-#   — go get github.com/mitchellh/gox
-#   — go get github.com/tcnksm/ghr
-#   — ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` dist/
+test:
+  override:
+    - true
+deployment:
+  release:
+  branch: master
+  commands:
+  — go get github.com/mitchellh/gox
+  — go get github.com/tcnksm/ghr
+  — ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` dist/
