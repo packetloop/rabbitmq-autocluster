@@ -12,10 +12,19 @@ dependencies:
   pre:
     - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
     - asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git
+    - cp .tool-versions $HOME/.tool-versions
     - |
       erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
-
-  override:
     - sh cci-umbrella-setup.sh
-    # - sh cci-install-consul.sh
+    - cd $BUILD_DIR/autocluster && make
+
+test:
+  override:
     - cd $BUILD_DIR/autocluster && make test
+deployment:
+  release:
+    tag: /[0-9]+.*/
+    commands:
+    - go get github.com/mitchellh/gox
+    - go get github.com/tcnksm/ghr
+    - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` "$HOME/rabbitmq-public-umbrella/autocluster/dist"
