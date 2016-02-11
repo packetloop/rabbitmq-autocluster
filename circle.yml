@@ -16,8 +16,7 @@ dependencies:
     - cp .tool-versions $HOME/.tool-versions
     - |
       erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
-    - go get github.com/mitchellh/gox
-    - go get github.com/tcnksm/ghr
+    - go get github.com/aktau/github-release
 
   override:
     - sh cci-umbrella-setup.sh
@@ -32,3 +31,20 @@ deployment:
     tag: /[0-9]+.*/
     commands:
     - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` "$HOME/rabbitmq-public-umbrella/autocluster/dist"
+    - |
+      github-release release \
+        --user "$CIRCLE_PROJECT_USERNAME" \
+        --repo "$CIRCLE_PROJECT_REPONAME" \
+        --tag `git describe --tags` || echo "Release already created"
+      github-release upload \
+        --user "$CIRCLE_PROJECT_USERNAME" \
+        --repo "$CIRCLE_PROJECT_REPONAME" \
+        --tag `git describe --tags` \
+        --name "whatever" \
+        --file "$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez | head)"
+      # github-release upload \
+      #   --user CIRCLE_PROJECT_USERNAME \
+      #   --repo "$CIRCLE_PROJECT_REPONAME" \
+      #   --tag `git describe --tags` \
+      #   --name "whatever" \
+      #   --file "$HOME/rabbitmq-public-umbrella/autocluster/dist/*.ez"
