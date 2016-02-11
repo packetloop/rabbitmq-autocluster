@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-ARTIFACT_PATH="$(find "$HOME/rabbitmq-public-umbrella/autocluster/dist" -maxdepth 1 -name '*.ez' | head -n 1)"
-ARTIFACT_NAME="$(basename "$ARTIFACT_PATH")"
+ARTIFACT_PATH="$HOME/rabbitmq-public-umbrella/autocluster/dist/autocluster-0.0.0.ez"
+ARTIFACT_NAME="autocluster-$CIRCLE_TAG.ez"
 
 echo Installing github-release
 go get github.com/aktau/github-release

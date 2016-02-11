@@ -24,7 +24,6 @@ dependencies:
 test:
   override:
     - cd $BUILD_DIR/autocluster && make test
-    - sleep 1000
 
 deployment:
   release:
