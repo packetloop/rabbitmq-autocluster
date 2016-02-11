@@ -90,8 +90,12 @@ register() ->
 %% @end
 %%
 send_health_check_pass() ->
-  Service = autocluster_util:as_atom(string:join(["service",
-                                                  autocluster_config:get(consul_service)], ":")),
+  {Prefix, Srv, TTL} = {autocluster_config:get(consul_service_prefix),
+                   autocluster_config:get(consul_service),
+                   autocluster_config:get(consul_service_ttl)},
+
+  SrvID = full_service_id(Prefix, Srv),
+  Service = autocluster_util:as_atom(lists:concat(["service", ':', SrvID])),
   case autocluster_httpc:get(autocluster_config:get(consul_scheme),
                              autocluster_config:get(consul_host),
                              autocluster_config:get(consul_port),
@@ -178,9 +182,8 @@ registration_body() ->
 full_service_id("undefined", Service) ->
   autocluster_util:as_atom(Service);
 
-% full_service_id(undefined, Service) ->
-%   erlang:display("undefined atom"),
-%   autocluster_util:as_atom(Service);
+full_service_id(undefined, Service) ->
+  autocluster_util:as_atom(Service);
 
 full_service_id(Prefix, Service) ->
   autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
@@ -217,9 +220,9 @@ registration_body(SrvID, Service, Name, Address, undefined, _) ->
   [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)},
    {"Tags", [autocluster_util:as_atom(Name)]}];
 
-registration_body(SrvID, Service, Name, Address, Port, _) ->
-  [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
-   {"Tags", [autocluster_util:as_atom(Name)]}];
+% registration_body(SrvID, Service, Name, Address, Port, _) ->
+%   [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
+%    {"Tags", [autocluster_util:as_atom(Name)]}];
 
 registration_body(SrvID, Service, Name, Address, Port, TTL) ->
   [{"ID", SrvID}, {"Name", Service}, {"Address", autocluster_util:as_atom(Address)}, {"Port", Port},
