@@ -16,6 +16,6 @@ echo Adding artifact tp release
 github-release upload \
   --user "$CIRCLE_PROJECT_USERNAME" \
   --repo "$CIRCLE_PROJECT_REPONAME" \
-  --tag `git describe --tags` \
+  --tag  "$CIRCLE_TAG" \
   --name "$ARTIFACT_NAME" \
   --file "$ARTIFACT_PATH"
