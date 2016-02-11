@@ -16,8 +16,7 @@ dependencies:
     - |
       erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
     - sh cci-umbrella-setup.sh
-    - cd $BUILD_DIR/autocluster
-    - make
+    - cd $BUILD_DIR/autocluster && make
 
 test:
   override:
