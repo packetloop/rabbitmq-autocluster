@@ -10,7 +10,7 @@ echo Creating release
 github-release release \
   --user "$CIRCLE_PROJECT_USERNAME" \
   --repo "$CIRCLE_PROJECT_REPONAME" \
-  --tag `git describe --tags` || echo "Release already created"
+  --tag `git describe --tags` || echo "Release $CIRCLE_TAG already created"
 
 echo Adding artifact tp release
 github-release upload \
@@ -19,3 +19,5 @@ github-release upload \
   --tag  "$CIRCLE_TAG" \
   --name "$ARTIFACT_NAME" \
   --file "$ARTIFACT_PATH"
+
+echo "Release $CIRCLE_TAG successful"
