@@ -21,6 +21,7 @@ dependencies:
 test:
   override:
     - cd $BUILD_DIR/autocluster && make test
+
 deployment:
   release:
     tag: /[0-9]+.*/
