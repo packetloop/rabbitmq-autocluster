@@ -16,7 +16,6 @@ dependencies:
     - cp .tool-versions $HOME/.tool-versions
     - |
       erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
-    - go get github.com/aktau/github-release
 
   override:
     - sh cci-umbrella-setup.sh
@@ -31,9 +30,10 @@ deployment:
     tag: /[0-9]+.*/
     commands:
     - |
-      ARTIFACT_PATH="$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)"
+      ARTIFACT_PATH="$(find "$HOME/rabbitmq-public-umbrella/autocluster/dist" -maxdepth 1 -name '*.ez' | head -n 1)"
       ARTIFACT_NAME="$(basename "$ARTIFACT_PATH")"
       echo Releasing "$ARTIFACT_PATH"
+      go get github.com/aktau/github-release
       github-release release \
         --user "$CIRCLE_PROJECT_USERNAME" \
         --repo "$CIRCLE_PROJECT_REPONAME" \
