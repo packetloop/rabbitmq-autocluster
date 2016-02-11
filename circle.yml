@@ -22,7 +22,8 @@ test:
   override:
     - cd $BUILD_DIR/autocluster && make test
 deployment:
-  development:
+  release:
+    tag: /[\.0-9]\+/
     branch: /.*ISSUE.*/
     commands:
     - go get github.com/mitchellh/gox
