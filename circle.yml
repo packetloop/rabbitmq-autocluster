@@ -31,19 +31,18 @@ deployment:
     tag: /[0-9]+.*/
     commands:
     - |
+      ARTIFACT="$(basename "$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)")" \
+      echo Releasing "$ARTIFACT"
+    - |
       github-release release \
         --user "$CIRCLE_PROJECT_USERNAME" \
         --repo "$CIRCLE_PROJECT_REPONAME" \
         --tag `git describe --tags` || echo "Release already created"
+    - |
+      ARTIFACT="$(basename "$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)")" \
       github-release upload \
         --user "$CIRCLE_PROJECT_USERNAME" \
         --repo "$CIRCLE_PROJECT_REPONAME" \
         --tag `git describe --tags` \
         --name "whatever" \
         --file "$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez | head)"
-      # github-release upload \
-      #   --user CIRCLE_PROJECT_USERNAME \
-      #   --repo "$CIRCLE_PROJECT_REPONAME" \
-      #   --tag `git describe --tags` \
-      #   --name "whatever" \
-      #   --file "$HOME/rabbitmq-public-umbrella/autocluster/dist/*.ez"
