@@ -23,7 +23,7 @@ test:
     - cd $BUILD_DIR/autocluster && make test
 deployment:
   release:
-    tag: /[\.0-9]\+/
+    tag: /[\.0-9]+/
     branch: /.*ISSUE.*/
     commands:
     - go get github.com/mitchellh/gox
