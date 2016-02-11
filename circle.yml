@@ -23,7 +23,7 @@ test:
     - cd $BUILD_DIR/autocluster && make test
 deployment:
   development:
-    branch: [fix-service-id]
+    branch: /.*ISSUE.*/
     commands:
     - go get github.com/mitchellh/gox
     - go get github.com/tcnksm/ghr
