@@ -138,9 +138,8 @@ acl_args() ->
 %%
 extract_nodes([], Nodes)    -> Nodes;
 extract_nodes([{struct, H}|T], Nodes) ->
-  {struct, V1} = proplists:get_value(<<"Node">>, H),
-  extract_nodes(T, lists:merge(Nodes, [autocluster_util:node_name(proplists:get_value(<<"Node">>, V1))])).
-
+  {struct, V1} = proplists:get_value(<<"Service">>, H),
+  extract_nodes(T, lists:merge(Nodes, [autocluster_util:node_name(proplists:get_value(<<"Address">>, V1))])).
 
 %% @private
 %% @spec extract_nodes(list()) -> list()
