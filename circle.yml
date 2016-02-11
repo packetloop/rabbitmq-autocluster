@@ -31,17 +31,13 @@ deployment:
     tag: /[0-9]+.*/
     commands:
     - |
-      ARTIFACT_PATH="$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)" \
-      ARTIFACT_NAME="$(basename "$ARTIFACT_PATH")" \
+      ARTIFACT_PATH="$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)"
+      ARTIFACT_NAME="$(basename "$ARTIFACT_PATH")"
       echo Releasing "$ARTIFACT_PATH"
-    - |
       github-release release \
         --user "$CIRCLE_PROJECT_USERNAME" \
         --repo "$CIRCLE_PROJECT_REPONAME" \
         --tag `git describe --tags` || echo "Release already created"
-    - |
-      ARTIFACT_PATH="$(find $HOME/rabbitmq-public-umbrella/autocluster/dist -maxdepth 1 -name *.ez)" \
-      ARTIFACT_NAME="$(basename "$ARTIFACT_PATH")" \
       github-release upload \
         --user "$CIRCLE_PROJECT_USERNAME" \
         --repo "$CIRCLE_PROJECT_REPONAME" \
