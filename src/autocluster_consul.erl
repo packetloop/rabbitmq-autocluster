@@ -183,7 +183,6 @@ full_service_id("undefined", Service) ->
 %   autocluster_util:as_atom(Service);
 
 full_service_id(Prefix, Service) ->
-  erlang:display(type_of(Prefix)),
   autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
 %% @private
 %% @spec registration_body(SrvID, Service, Address, Name, Port, TTL) -> proplist()
