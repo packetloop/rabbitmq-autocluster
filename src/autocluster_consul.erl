@@ -112,11 +112,14 @@ send_health_check_pass() ->
 %% @end
 %%
 unregister() ->
+  {Prefix, Srv} = {autocluster_config:get(consul_service_prefix),
+                   autocluster_config:get(consul_service)},
+
+  SrvID = full_service_id(Prefix, Srv),
   case autocluster_httpc:get(autocluster_config:get(consul_scheme),
                              autocluster_config:get(consul_host),
                              autocluster_config:get(consul_port),
-                             [v1, agent, service, deregister,
-                             autocluster_config:get(consul_service)], acl_args) of
+                             [v1, agent, service, deregister, SrvID], acl_args) of
     {ok, _} -> ok;
     Error   -> Error
   end.
@@ -189,7 +192,8 @@ full_service_id(Prefix, Service) ->
   autocluster_util:as_atom(lists:concat([Prefix, '-', Service])).
 %% @private
 %% @spec registration_body(SrvID, Service, Address, Name, Port, TTL) -> proplist()
-%% @where Service = string()
+%% @where SrvID = atom()
+%%        Service = string()
 %%        Name = mixed
 %%        Address = string()|undefined
 %%        Port = integer()|undefined
